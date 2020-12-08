@@ -1,0 +1,45 @@
+import csv
+import pymssql
+
+conn = pymssql.connect(
+    server="xx.xxx.xx.90",
+    port = 2433,
+    user='SQLAdmin',
+    password='xxxxxxxx',
+    database='NasrWeb'
+)
+
+cursor = conn.cursor()
+customer_data = csv.reader('cleanNVG.csv') #25 columns with same header as SQL
+
+for row in customer_data:
+    cursor.execute('INSERT INTO zzzOracle_Extract([Customer Name]\
+      ,[Customer #]\
+      ,[Account Name]\
+      ,[Identifying Address Flag]\
+      ,[Address1]\
+      ,[Address2]\
+      ,[Address3]\
+      ,[Address4]\
+      ,[City]\
+      ,[County]\
+      ,[State]\
+      ,[Postal Code]\
+      ,[Country]\
+      ,[Category ]\
+      ,[Class]\
+      ,[Reference]\
+      ,[Party Status]\
+      ,[Address Status]\
+      ,[Site Status]\
+      ,[Ship To or Bill To]\
+      ,[Default Warehouse]\
+      ,[Default Order Type]\
+      ,[Default Shipping Method]\
+      ,[Optifacts Customer Number]\
+      ,[Salesperson])''VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,)',row)
+
+conn.commit()
+cursor.close()
+print("Done")
+conn.close()
